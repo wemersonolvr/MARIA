@@ -12,7 +12,7 @@ class Ambiente:
         tipo_janela = "headless" if modo_silencioso else "SDL2"
         self.pyboy = PyBoy(nome_arquivo, window=tipo_janela, debug=modo_silencioso)
         self.pyboy.set_emulation_speed(100)
-        self.mario = self.pyboy.game_wrapper
+        self.mario = self.pyboy.game_wrapper()
         self.mario.start_game()
 
     def calcular_fitness(self):
@@ -64,8 +64,8 @@ class Ambiente:
 
 class Individuo:
     # Pode mudar a quantidade de ações e a duração
-    def __init__(self):
-        self.acoes = [(random.randint(0, 2), random.randint(1, 10)) for _ in range(5000)]
+    def __init__(self, tamanho_acoes=5000):
+        self.acoes = [(random.randint(0, 2), random.randint(1, 10)) for _ in range(tamanho_acoes)]
         self.fitness = 0
 
     # Fique à vontade para mudar a função de avaliação e adicionar/remover parâmetros
@@ -95,8 +95,8 @@ def avaliar_fitness(individuo, ambiente):
     fitness_normalizado = fitness / 10000
     return fitness_normalizado
 
-def iniciar_individuos(populacao):
-    return [Individuo() for _ in range(populacao)]
+def iniciar_individuos(populacao, tamanho_acoes=5000):
+    return [Individuo(tamanho_acoes) for _ in range(populacao)]
 
 def selecao(individuos, tamanho_torneio=3):
     selecionados = []
@@ -107,15 +107,19 @@ def selecao(individuos, tamanho_torneio=3):
     return selecionados
 
 def cruzamento(pai1, pai2):
-    ponto_corte = random.randint(1, len(pai1) - 1)
-    filho1 = pai1[:ponto_corte] + pai2[ponto_corte:]
-    filho2 = pai2[:ponto_corte] + pai1[ponto_corte:]
+    ponto_corte = random.randint(1, len(pai1.acoes) - 1)
+    filho1_acoes = pai1.acoes[:ponto_corte] + pai2.acoes[ponto_corte:]
+    filho2_acoes = pai2.acoes[:ponto_corte] + pai1.acoes[ponto_corte:]
+    filho1 = Individuo()
+    filho2 = Individuo()
+    filho1.acoes = filho1_acoes
+    filho2.acoes = filho2_acoes
     return filho1, filho2
 
 def mutacao(individuo, taxa_mutacao=0.1):
-    for i in range(len(individuo)):
+    for i in range(len(individuo.acoes)):
         if random.random() < taxa_mutacao:
-            individuo[i] = (random.choice(["esquerda", "direita", "A"]), random.randint(1, 10))  # Mutação aleatória em uma ação
+            individuo.acoes[i] = (random.randint(0, 2), random.randint(1, 10))  # Mutação aleatória em uma ação
     return individuo
 
 def imprimir_acoes_individuo(individuo):
@@ -158,8 +162,8 @@ def algoritmo_genetico(populacao, ambiente, geracoes=100):
 def rodar_melhor_modelo(ambiente, melhor_individuo):
     while True:
         estado = ambiente.reset()
-        for acao in melhor_individuo.acoes:
-            estado, fitness, tempo_restante, progresso_nivel = ambiente.passo(acao)
+        for acao, duracao in melhor_individuo.acoes:
+            estado, fitness, tempo_restante, progresso_nivel = ambiente.passo(acao, duracao)
 
         print("Loop completado, reiniciando...")
 
