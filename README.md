@@ -22,13 +22,13 @@ pip install pyboy
 
 Baixe o ROM do jogo "Super Mario Land" através do seguinte link:
 
-[Download Super Mario Land](https://example.com/download-super-mario-land)
+[Download Super Mario Land](https://www.emulatorgames.net/roms/gameboy/super-mario-land-jue-v11/)
 
 ### Emulador mGBA
 
 Você precisará do emulador mGBA para outros propósitos. Baixe-o no seguinte link:
 
-[Download mGBA](https://example.com/download-mgba)
+[Download mGBA](https://mgba.io/downloads.html)
 
 ## Uso
 
@@ -40,10 +40,8 @@ python principal.py
 
 ## Contribuição
 
-Sinta-se à vontade para contribuir com melhorias, correções de bugs ou novas funcionalidades. Envie um pull request com uma descrição clara do que foi alterado.
+Sinta-se à vontade para contribuir com melhorias, correções de bugs ou novas funcionalidades. Envie um pull request com uma descrição clara do que foi modificado.
 
 ## Licença
 
-Este projeto está licenciado sob a MIT License. Consulte o arquivo LICENSE para mais informações.
-
-Esse arquivo `README.md` fornece informações sobre o projeto, pré-requisitos, instruções de instalação e uso, além de informações sobre como contribuir e a licença do projeto.
+Esse arquivo `README.md` fornece informações sobre o projeto, pré-requisitos, instruções de instalação e uso, além de informações sobre como contribuir e a licença do projeto 
